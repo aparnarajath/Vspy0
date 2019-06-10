@@ -1,0 +1,1035 @@
+////////////////////////////////////////
+// Spy C Code Implementation
+////////////////////////////////////////
+#include "vspy.h"
+#include<Windows.h>
+// module variables
+
+// TODO: add global variables here
+
+// TODO: add event handlers here
+
+void Spy_EveryMessage(GenericMessage * p_Msg)
+{
+	// TODO: add something you want to do for every message
+}
+
+void Spy_EveryLongMessage(GenericLongMessage * p_Msg)
+{
+	// TODO: add something you want to do for every long message
+}
+
+void Spy_EveryLoop(unsigned int uiCurrentTime)
+{
+	// TODO: add something you want to do every millisecond
+}
+void Spy_EveryGUILoop()
+{
+	// TODO: write code to interact with the vehicle spy gui (this is called on the GUI thread)
+}
+
+void Spy_ErrorState(int iNetwork, int iTxErrorCount, int iRxErrorCount, int iErrorBitfield)
+{
+}
+
+void Spy_ErrorFrame(int iNetwork, int iTxErrorCount, int iRxErrorCount, int iErrorBitfield)
+{
+}
+
+void Spy_Stopped()
+{
+
+	// TODO: add stopped code
+}
+
+void Spy_KeyPress(int iKey, int iCTRLPressed, int iALTPressed)
+{
+	// TODO: add key handler code
+	//int i = 99;
+	//FILE *fp = fopen("Quality.csv", "w");
+	///*if (!fp)
+	//printf("Can't open file\n");
+	//else
+	//printf("File Exists\n");*/
+	//fprintf(fp, ",,,,,,,,,Cluster CheckList\n");
+	//fprintf(fp, "\n");
+	//fprintf(fp, "Date:              ,");
+	//fprintf(fp, "New Part#:                ,");
+	//fprintf(fp, "Old Part#:                 ,");
+	//fprintf(fp, "SW:         \n");
+}
+
+void Spy_Started()
+{
+	
+}
+
+void Spy_BeforeStarted()
+{
+	// TODO: add before started code
+}
+
+struct PartNumber
+{
+	char line[1024];
+	char A_Variant[30];
+	char B_BoschPN[20];
+	char C_GMPN[20];
+	char D_GMBMPN[20];
+	char E_SW[20];
+	int F_Identifier;
+
+}PN[1000];
+
+void Spy_Main()
+{
+	printf("Global A Reflashing Tool\n");
+	MessageBoxW(NULL, L"Check CAN Signal on the neoVIFire 2 is Green or Do Power Reset ", L"Check Message", MB_OK);
+	MessageBoxW(NULL, L"Click Get Controller Info ", L"Check Message", MB_OK);
+}
+
+ int flag1 = 0, flag2 = 0, flag3 = 0, flag4 = 0, flag5 = 0, flag6 = 0, flag7 = 0;
+void SpyMsg_MG_Response_SW_CAN(MG_Response_SW_CAN * pMG_Response_SW_CAN)
+{
+	/*printf("\nArb ID:%x,Data:[0]%x,[1]%x,[2]%x,[3]%x,[4]%x,[5]%x,[6]%x,[7]%x,[8]%x,[9]%x,[10]%x,[11]%x,[12]%x,[13]%x,[14]%x,[15]%x,[16]%x,[17]%x", pMG_Response_SW_CAN->MessageData.iID, pMG_Response_SW_CAN->MessageData.btData[0],
+		pMG_Response_SW_CAN->MessageData.btData[1], pMG_Response_SW_CAN->MessageData.btData[2], pMG_Response_SW_CAN->MessageData.btData[3],
+		pMG_Response_SW_CAN->MessageData.btData[4], pMG_Response_SW_CAN->MessageData.btData[5], pMG_Response_SW_CAN->MessageData.btData[6],
+		pMG_Response_SW_CAN->MessageData.btData[7], pMG_Response_SW_CAN->MessageData.btData[8], pMG_Response_SW_CAN->MessageData.btData[9],
+		pMG_Response_SW_CAN->MessageData.btData[10], pMG_Response_SW_CAN->MessageData.btData[11], pMG_Response_SW_CAN->MessageData.btData[12],
+		pMG_Response_SW_CAN->MessageData.btData[13], pMG_Response_SW_CAN->MessageData.btData[14], pMG_Response_SW_CAN->MessageData.btData[15],
+		pMG_Response_SW_CAN->MessageData.btData[16], pMG_Response_SW_CAN->MessageData.btData[17]);
+*/
+	//printf("\nByte Lengths:%x,%d", pMG_Response_SW_CAN->MessageData.iNumDataBytes, pMG_Response_SW_CAN->MessageData.iNumDataBytes);
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xab) && (pMG_Response_SW_CAN->MessageData.btData[2] == 0xff))
+	{
+		printf("\n***Invalid VPPS value(7110500000000X) in the Cluster***\n\n");
+		MessageBoxW(NULL, L"Invalid VPPS value(7110500000000X)\n", L" Error Message", MB_OK);
+	}
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xab) && ((pMG_Response_SW_CAN->MessageData.btData[2] != 0x37)||
+		(pMG_Response_SW_CAN->MessageData.btData[3] != 0x31)||(pMG_Response_SW_CAN->MessageData.btData[4] != 0x31)|| (pMG_Response_SW_CAN->MessageData.btData[5] != 0x30)|| 
+		(pMG_Response_SW_CAN->MessageData.btData[6] != 0x35)|| (pMG_Response_SW_CAN->MessageData.btData[7] != 0x30)|| (pMG_Response_SW_CAN->MessageData.btData[8] != 0x30)|| 
+		(pMG_Response_SW_CAN->MessageData.btData[9] != 0x30)|| (pMG_Response_SW_CAN->MessageData.btData[10] != 0x30)|| (pMG_Response_SW_CAN->MessageData.btData[11] != 0x30)||
+		(pMG_Response_SW_CAN->MessageData.btData[12] != 0x30)|| (pMG_Response_SW_CAN->MessageData.btData[13] != 0x30)|| (pMG_Response_SW_CAN->MessageData.btData[14] != 0x30)||
+		(pMG_Response_SW_CAN->MessageData.btData[15] != 0x58)||(pMG_Response_SW_CAN->MessageData.iNumDataBytes!=16)))
+	{
+		printf("\n***Invalid VPPS value(7110500000000X) in the Cluster***\n\n");
+		MessageBoxW(NULL, L"Invalid VPPS value(7110500000000X)\n", L" Error Message", MB_OK);
+	}
+
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xb3) && (pMG_Response_SW_CAN->MessageData.btData[2] == 0xff))
+	{
+		printf("\n***Invalid DUNS value(652029760) in the Cluster***\n\n");
+		MessageBoxW(NULL, L"Invalid DUNS value(652029760)\n", L" Error Message", MB_OK);
+	}
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xb3) && ((pMG_Response_SW_CAN->MessageData.btData[2] != 0x36)
+		|| (pMG_Response_SW_CAN->MessageData.btData[3] != 0x35)||(pMG_Response_SW_CAN->MessageData.btData[4] != 0x32) || (pMG_Response_SW_CAN->MessageData.btData[5] != 0x30)
+		|| (pMG_Response_SW_CAN->MessageData.btData[6] != 0x32) || (pMG_Response_SW_CAN->MessageData.btData[7] != 0x39) || (pMG_Response_SW_CAN->MessageData.btData[8] != 0x37)
+		|| (pMG_Response_SW_CAN->MessageData.btData[9] != 0x36) || (pMG_Response_SW_CAN->MessageData.btData[10] != 0x30)||(pMG_Response_SW_CAN->MessageData.iNumDataBytes!=11)))
+	{
+		printf("\n***Invalid DUNS value(652029760) in the Cluster***\n\n");
+		MessageBoxW(NULL, L"Invalid DUNS value(652029760)\n", L" Error Message", MB_OK);
+	}
+
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xcb) && (pMG_Response_SW_CAN->MessageData.btData[2] == 0xff))
+		printf("\n***Invalid Part Number in the Cluster***\n\n");
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xcc) && (pMG_Response_SW_CAN->MessageData.btData[2] == 0xff))
+		MessageBoxW(NULL, L"Invalid Base Model Part Number\n", L" Error Message", MB_OK);
+		
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xcc) && (pMG_Response_SW_CAN->MessageData.btData[2] == 0x00))
+		MessageBoxW(NULL, L"No Base Model Part Number\n", L" Error Message", MB_OK);
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xcb) && (pMG_Response_SW_CAN->MessageData.btData[2] == 0x00))
+		MessageBoxW(NULL, L"No End Model Part Number\n", L" Error Message", MB_OK);
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xb4) && (pMG_Response_SW_CAN->MessageData.btData[2] == 0xff))
+	{
+		printf("\n***Invalid MTC Data in the Cluster***\n\n");
+		MessageBoxW(NULL, L"Invalid MTC Data\n", L" Error Message", MB_OK);
+	}
+
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xb4) && ((pMG_Response_SW_CAN->MessageData.btData[2] != 0x31)
+		|| (pMG_Response_SW_CAN->MessageData.btData[3] != 0x31) || (pMG_Response_SW_CAN->MessageData.btData[4] != 0x31) || (pMG_Response_SW_CAN->MessageData.btData[17] != 0x30)||
+		(pMG_Response_SW_CAN->MessageData.iNumDataBytes!=18)))
+	{
+		printf("\n***Invalid MTC Data in the Cluster***\n\n");
+		MessageBoxW(NULL, L"Invalid MTC Data\n", L" Error Message", MB_OK);
+	}
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xf3) && (pMG_Response_SW_CAN->MessageData.btData[2] == 0x00) &&
+		(pMG_Response_SW_CAN->MessageData.btData[3] == 0x00) && (pMG_Response_SW_CAN->MessageData.btData[4] == 0x00) && (pMG_Response_SW_CAN->MessageData.btData[5] == 0x00) &&
+		(pMG_Response_SW_CAN->MessageData.btData[6] == 0x00) && (pMG_Response_SW_CAN->MessageData.btData[7] == 0x00) && (pMG_Response_SW_CAN->MessageData.btData[8] == 0x00) &&
+		(pMG_Response_SW_CAN->MessageData.btData[9] == 0x00) && (pMG_Response_SW_CAN->MessageData.btData[10] == 0x00) && (pMG_Response_SW_CAN->MessageData.btData[11] == 0x00) &&
+		(pMG_Response_SW_CAN->MessageData.btData[12] == 0x00) && (pMG_Response_SW_CAN->MessageData.btData[13] == 0x00) && (pMG_Response_SW_CAN->MessageData.btData[14] == 0x00) &&
+		(pMG_Response_SW_CAN->MessageData.btData[15] == 0x00) && (pMG_Response_SW_CAN->MessageData.btData[16] == 0x00))
+	{
+		printf("\n***Invalid ECU ID in the Cluster***\n\n");
+		MessageBoxW(NULL, L"Invalid ECU ID\n", L" Error Message", MB_ICONERROR);
+	}
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xf3)
+		&& ((pMG_Response_SW_CAN->MessageData.btData[16] != 0x14) || (pMG_Response_SW_CAN->MessageData.btData[17] != 0xaa)||(pMG_Response_SW_CAN->MessageData.iNumDataBytes!=18)))
+	{
+		printf("\n***Invalid ECU ID in the Cluster***\n\n");
+		MessageBoxW(NULL, L"Invalid ECU ID\n", L"Error Message", MB_ICONERROR);
+	}
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xf3) && (pMG_Response_SW_CAN->MessageData.btData[2] == 0xff))
+	{
+		printf("\n***Invalid ECU ID in the Cluster***\n\n");
+		MessageBoxW(NULL, L"Invalid ECU ID", L" Error Message", MB_ICONERROR);
+	}
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xa0) && (pMG_Response_SW_CAN->MessageData.btData[2] == 0x00))
+	{
+		MessageBoxW(NULL, L"MEC value is Zero\n", L"Message", MB_OK);
+		//flag1 = 1;
+	}
+	
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xa0) && (pMG_Response_SW_CAN->MessageData.btData[2] != 0xff))
+	{
+		MessageBoxW(NULL, L"MEC Read Successsfully\n", L"Message", MB_OK);
+		//flag1 = 1;
+	}
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xab) && ((pMG_Response_SW_CAN->MessageData.btData[2] == 0x37) &&
+		(pMG_Response_SW_CAN->MessageData.btData[3] == 0x31) && (pMG_Response_SW_CAN->MessageData.btData[4] == 0x31) && (pMG_Response_SW_CAN->MessageData.btData[5] == 0x30) &&
+		(pMG_Response_SW_CAN->MessageData.btData[6] == 0x35) && (pMG_Response_SW_CAN->MessageData.btData[7] == 0x30) && (pMG_Response_SW_CAN->MessageData.btData[8] == 0x30) &&
+		(pMG_Response_SW_CAN->MessageData.btData[9] == 0x30) && (pMG_Response_SW_CAN->MessageData.btData[10] == 0x30) && (pMG_Response_SW_CAN->MessageData.btData[11] == 0x30) &&
+		(pMG_Response_SW_CAN->MessageData.btData[12] == 0x30) && (pMG_Response_SW_CAN->MessageData.btData[13] == 0x30) && (pMG_Response_SW_CAN->MessageData.btData[14] == 0x30) &&
+		(pMG_Response_SW_CAN->MessageData.btData[15] == 0x58) && (pMG_Response_SW_CAN->MessageData.iNumDataBytes == 16)))
+	{
+		printf("\nVPPS Read Successfully\n");
+		//MessageBoxW(NULL, L"VPPS Read Successsfully\n", L"Message", MB_OK);
+		flag2 = 1;
+	}
+
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xb3) && ((pMG_Response_SW_CAN->MessageData.btData[2] == 0x36)
+		&& (pMG_Response_SW_CAN->MessageData.btData[3] == 0x35) && (pMG_Response_SW_CAN->MessageData.btData[4] == 0x32) && (pMG_Response_SW_CAN->MessageData.btData[5] == 0x30)
+		&& (pMG_Response_SW_CAN->MessageData.btData[6] == 0x32) && (pMG_Response_SW_CAN->MessageData.btData[7] == 0x39) && (pMG_Response_SW_CAN->MessageData.btData[8] == 0x37)
+		&& (pMG_Response_SW_CAN->MessageData.btData[9] == 0x36) && (pMG_Response_SW_CAN->MessageData.btData[10] == 0x30) || (pMG_Response_SW_CAN->MessageData.iNumDataBytes == 11)))
+	{
+		printf("\nDUNS Read Successfully\n");
+		//MessageBoxW(NULL, L"DUNS Read Successsfully\n", L"Message", MB_OK);
+		flag3 = 1;
+	}
+
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xcb) && (pMG_Response_SW_CAN->MessageData.btData[2] != 0xff) && (pMG_Response_SW_CAN->MessageData.btData[2]!=0x00))
+	{
+		printf("\nPart Number Read Successfully\n");
+		//MessageBoxW(NULL, L"Part Number Read Successsfully\n", L"Message", MB_OK);
+		flag4 = 1;
+	}
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xcc) && (pMG_Response_SW_CAN->MessageData.btData[2] != 0xff) && (pMG_Response_SW_CAN->MessageData.btData[2] != 0x00))
+	{
+		printf("\nBase Model Part Number Read Successfully\n");
+		//MessageBoxW(NULL, L"Base Model Part Number Read Successsfully\n", L"Message", MB_OK);
+		flag5 = 1;
+	}
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xb4) && (pMG_Response_SW_CAN->MessageData.btData[2] == 0x31)
+		&& (pMG_Response_SW_CAN->MessageData.btData[3] == 0x31) && (pMG_Response_SW_CAN->MessageData.btData[4] == 0x31)
+		&& (pMG_Response_SW_CAN->MessageData.btData[17] == 0x30) && (pMG_Response_SW_CAN->MessageData.iNumDataBytes == 18))
+	{
+		printf("\nMTC Read Successfully\n");
+		//MessageBoxW(NULL, L"MTC Read Successsfully\n", L"Message", MB_OK);
+		flag6 = 1;
+	}
+
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xf3) && (pMG_Response_SW_CAN->MessageData.btData[2] == 0x00) &&
+		(pMG_Response_SW_CAN->MessageData.btData[3] == 0x00) && (pMG_Response_SW_CAN->MessageData.btData[4] == 0x00) && (pMG_Response_SW_CAN->MessageData.btData[15] == 0x01)
+		&& (pMG_Response_SW_CAN->MessageData.btData[16] == 0x14) && (pMG_Response_SW_CAN->MessageData.btData[17] == 0xaa) && (pMG_Response_SW_CAN->MessageData.iNumDataBytes == 18))
+	{
+		printf("\nECUID Read Successfully\n");
+		//MessageBoxW(NULL, L"ECUID Read Successsfully\n", L"Message", MB_OK);
+		flag7 = 1;
+	}
+
+	
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xa0) && ((pMG_Response_SW_CAN->MessageData.btData[2] == 0x00)|| (pMG_Response_SW_CAN->MessageData.btData[2] == 0xff)))
+		MessageBoxW(NULL, L"No MEC Value Written\n", L" Error Message", MB_OK);
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xab) && ((pMG_Response_SW_CAN->MessageData.btData[2] == 0x00) || (pMG_Response_SW_CAN->MessageData.btData[2] == 0xff)))
+		MessageBoxW(NULL, L"No VPPS Value Written\n", L" Error Message", MB_OK);
+
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xb3) && ((pMG_Response_SW_CAN->MessageData.btData[2] == 0x00) || (pMG_Response_SW_CAN->MessageData.btData[2] == 0xff)))
+		MessageBoxW(NULL, L"No DUNS value Written\n", L" Error Message", MB_OK);
+
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xcb) && ((pMG_Response_SW_CAN->MessageData.btData[2] == 0x00) || (pMG_Response_SW_CAN->MessageData.btData[2] == 0xff)))
+		MessageBoxW(NULL, L"No Part Number value Written\n", L" Error Message", MB_OK);
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xcc) && ((pMG_Response_SW_CAN->MessageData.btData[2] == 0x00) || (pMG_Response_SW_CAN->MessageData.btData[2] == 0xff)))
+		MessageBoxW(NULL, L"No  Base Model Part Number value Written\n", L" Error Message", MB_OK);
+
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0xb4) && ((pMG_Response_SW_CAN->MessageData.btData[2] == 0x00) || (pMG_Response_SW_CAN->MessageData.btData[2] == 0xff)))
+		MessageBoxW(NULL, L"No MTC Written\n", L" Error Message", MB_OK);
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x5a) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0x21))
+		MessageBoxW(NULL, L"Positive Response", L" Message", MB_OK);
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0xee) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0x01))
+		MessageBoxW(NULL, L"WOW Success", L" Message", MB_OK);
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0xee) && (pMG_Response_SW_CAN->MessageData.btData[1] == 0x0c))
+		MessageBoxW(NULL, L"Telltales Success", L" Message", MB_OK);
+
+	if ((pMG_Response_SW_CAN->MessageData.btData[0] == 0x7f))
+		MessageBoxW(NULL, L"Negative Response", L" Message", MB_OK);
+
+	//printf("\n\nMEC flag1:%d,VPPS flag2:%d,DUNS flag3:%d,PN flag4:%d,BMPN flag5:%d,MTC flag6:%d,ECUID flag7:%d\n,",flag1, flag2, flag3, flag4, flag5, flag6, flag7);
+
+	if (flag2 == 1 && flag3 == 1 && flag4 == 1 && flag5 == 1 && flag6 == 1 && flag7 == 1)
+	{
+		MessageBoxW(NULL, L"Cluster has all values\n", L" Message", MB_OK);
+		flag2 =0 ;flag3 = 0;flag4 = 0;flag5 = 0;flag6 = 0;flag7 = 0;
+	}
+	
+}
+
+void SpyAppSig_AS_Check_all_Success(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+
+	if (iNewValue == 1)
+	{
+			MessageBoxW(NULL, L"Retry Get Controller Info Button if you got any Negative Response", L" Message", MB_OK);
+	}
+}
+
+void SpyAppSig_AS_ExitProdMode(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+
+	if (iNewValue == 1)
+	{
+		MessageBoxW(NULL, L"Click get Controller Info\n Click Check Button", L" Message", MB_OK);
+	}
+}
+
+int flash = 0;
+void SpyAppSig_AS_Flasher(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		flash = 2;               //Ibrahim
+	if (iNewValue == 3)
+		flash = 3;               //Amber
+}
+
+void SpyAppSig_AS_Reviewed_By(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+	{
+		if (flash == 2)
+			MessageBoxW(NULL, L"Reflasher and Reviewer cannot be same person", L"Error Message", MB_ICONERROR);
+	}
+	if (iNewValue == 3)
+	{
+		if (flash == 3)
+			MessageBoxW(NULL, L"Reflasher and Reviewer cannot be same person", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_userInput(double dNewValue)
+{
+	printf("The Part Number: %f\n", dNewValue);
+	char buffer[1024];
+	char *temp;
+	int i = 1, length = 0;
+	char UserPN[20];
+	int iNewValue, Flag = 0;
+
+	FILE *file1 = fopen("C:\\IntrepidCS\\Macro PN\\BoMData.csv", "r");
+	if (!file1)
+		printf("Can't open file.\n");
+	else
+		printf("File Exists\n");
+
+
+	iNewValue = dNewValue;
+	//printf("iNewValue: %d\n", iNewValue);
+	itoa(iNewValue, UserPN, 10);
+	//printf("User Input Part Number: %s\n", UserPN);
+	while ((fgets(buffer, 1024, file1)) != NULL)
+	{
+		//printf("\nlength: %d\n",length);
+		strcpy(PN[i].line, buffer);
+		//printf("\ni: %d\nLine: %s\n", i, PN[i].line);
+
+		temp = strtok(buffer, ",");
+		strcpy(PN[i].A_Variant, temp);
+		//printf("\nVariant: %s", PN[i].A_Variant);
+
+		temp = strtok(NULL, ",");
+		strcpy(PN[i].B_BoschPN, temp);
+		//printf("\nBosch PN: %s", PN[i].B_BoschPN);
+
+		temp = strtok(NULL, ",");
+		strcpy(PN[i].C_GMPN, temp);
+		//printf("\nGM PN: %s", PN[i].C_GMPN);
+
+		temp = strtok(NULL, ",");
+		strcpy(PN[i].D_GMBMPN, temp);
+		//printf("\nGM PN: %s", PN[i].C_GMPN);
+
+		temp = strtok(NULL, ",");
+		strcpy(PN[i].E_SW, temp);
+		//printf("\nSW: %s\n", PN[i].D_SW);
+
+		temp = strtok(NULL, "\n");
+		PN[i].F_Identifier = atoi(temp);
+		//printf("\nI: %d\n", PN[i].E_Identifier);
+
+		i++;
+	}
+
+	for (int j = 2;j <= i;j++)
+	{
+		if ((strcmp(UserPN, PN[j].C_GMPN) == 0))
+		{
+			
+			printf("Variant: %s\nBosch Part Number: %s\nGM Part Number: %s\nGM Base Model Part Number: %s\nCustomer Software: %s\n", PN[j].A_Variant, PN[j].B_BoschPN, PN[j].C_GMPN, PN[j].D_GMBMPN,PN[j].E_SW);			
+			wchar_t buff1[200];int cx;
+			swprintf(buff1, 200, L"%s", PN[j].line);
+			MessageBoxA(NULL,buff1,"Part Number Found", MB_OK);
+			Flag = 1;
+		}
+	}
+	if (Flag == 0)
+	{
+		MessageBoxW(NULL, L"Invalid Part Number\n", L"Error Message", MB_OK);
+	}
+
+	printf("\n**********************************\n");
+
+	//unsigned long int SN = AS_Ser;
+	/*AS_PN_SN_Save_Set(AS_userInput_Get());
+	printf("Serial Number: %f", AS_userInput_Get());
+	printf("Serial Number: %f", AS_SerialNumberSave_Get());*/
+
+	int mw = MessageBoxW(NULL, L"Do you want to Flash the Cluster?", L"Message", MB_YESNO);
+	if (mw == 6)
+		MessageBoxW(NULL, L"Click Save.txt\nFlash the Cluster and put it in Production Mode\nWrite Part Number in Text Box and Click Write Button", L"Message", MB_OK);
+	if(mw==7)
+		MessageBoxW(NULL, L"Click Save.txt\n", L"Message", MB_OK);
+	
+}
+
+void SpyAppSig_AS_SerialNumberSave(double dNewValue)
+{
+	wchar_t save[100]; 	wchar_t ch = '_';
+	int iNewValue1;
+	unsigned long long int iNewValue = dNewValue;
+
+	iNewValue1 = AS_userInput_Get();
+
+	/*printf("\nSerial Number:: %llu", iNewValue);
+	printf("\npart Number: %d", iNewValue1);*/
+	sprintf(save, "%d%c%llu", iNewValue1,ch,iNewValue);
+	/*printf("\n%s", save);*/
+	printf("\nSave : %s,",AS_PN_SN_Save_SetText(0,save,25));
+}
+
+void SpyAppSig_AS_PN_SN_Save(double dNewValue)
+{
+	// TODO: Add Event Code
+}
+void SpyAppSig_AS_VariantInput(double dNewValue)
+{
+	char buffer[1024], *temp, UserPN[20];
+	int i = 1, iNewValue, Flag = 0;
+
+	FILE *file1 = fopen("C:\\IntrepidCS\\Macro PN\\BoMData.csv", "r");
+	iNewValue = dNewValue;
+	itoa(iNewValue, UserPN, 10);
+
+	while ((fgets(buffer, 1024, file1)) != NULL)
+	{
+		strcpy(PN[i].line, buffer);
+		temp = strtok(buffer, ",");
+		strcpy(PN[i].A_Variant, temp);
+		temp = strtok(NULL, ",");
+		strcpy(PN[i].B_BoschPN, temp);
+		temp = strtok(NULL, ",");
+		strcpy(PN[i].C_GMPN, temp);
+		temp = strtok(NULL, ",");
+		strcpy(PN[i].D_GMBMPN, temp);
+		temp = strtok(NULL, ",");
+		strcpy(PN[i].E_SW, temp);
+		temp = strtok(NULL, "\n");
+		PN[i].F_Identifier = atoi(temp);
+		i++;
+	}
+
+	for (int j = 2;j <= i;j++)
+	{
+		if ((strcmp(UserPN, PN[j].C_GMPN) == 0))
+		{
+			Flag = 1;
+			switch (PN[j].F_Identifier)
+			{
+			case 1: printf("\nE2 Sport/Y2xx domestic/export MY20\n");break;
+			case 2: printf("A2xx Base - Export Gas MY20\n");break;
+			case 3: printf("A2xx Base - Domestic Gas MY20\n");break;
+
+			case 4: MessageBoxW(NULL, L"C1xL- Domestic Gas MY 20 FB is running ", L"Message", MB_OK);FB_MY20_C1UL_Domestic_Gas_7000__Sp_160__Start();break;   //GA_tst5
+			case 5: MessageBoxW(NULL, L"C1xL - Export Gas MY20 FB is running ", L"Message", MB_OK);FB_MY20_CIUL_Export_Gas__7000__Sp_260__Start();break;     //GA_tst6
+			case 6: MessageBoxW(NULL, L"C1xL - China Gas MY20 FB is running ", L"Message", MB_OK);FB_MY20_CIUL_Export_Gas__7000__Sp_260__Start();break;                                                      //GA_
+
+			case 7: MessageBoxW(NULL, L"T1xx HD Domestic Gas  Chevy MY20 FB is running ", L"Message", MB_OK);FB_MY20_Chevy_HD_Domestic_Gas_6500__Sp_140__Start();break;  //GA_tst15
+			case 8: MessageBoxW(NULL, L"T1xx HD Export Gas  Chevy MY20 FB is running ", L"Message", MB_OK);FB_MY20_Chevy_HD_Export_Gas_6500__Sp_200__Start();break;      //GA_tst16
+			case 9: MessageBoxW(NULL, L"T1xx HD Domestic Diesel Chevy MY20 FB is running ", L"Message", MB_OK);FB_MY20_Chevy_HD_Domestic_Diesel_5000__Sp_140__Start();break;  //GA_tst18
+			case 10:MessageBoxW(NULL, L"T1xx HD Export Diesel Chevy MY20 FB is running ", L"Message", MB_OK);FB_MY20_Chevy_HD_Export_Diesel_5000__Sp_200___Start();break;    //GA_tst19
+			case 11: MessageBoxW(NULL, L"T1xx HD Export Gas GMC MY20 FB is running ", L"Message", MB_OK);FB_MY20_GMC_HD_Export_Gas__6500__sp_200__Start();break;            //GA_tst11
+			case 12: MessageBoxW(NULL, L"T1xx HD Domestic Gas  GMC MY20 FB is running ", L"Message", MB_OK);FB_MY20_GMC_HD_Dom_Gas__6500__Sp_140__Start();break;
+			case 13: MessageBoxW(NULL, L"T1xx HD Domestic Diesel GMC MY20 FB is running ", L"Message", MB_OK);FB_MY20_GMC_HD_Dom_Diesel_5000__Sp_140__Start();break;        //GA_tst12
+			case 14: MessageBoxW(NULL, L"T1xx HD Export Diesel GMC MY20 FB is running ", L"Message", MB_OK);FB_MY20_GMC_HD_Export_Diesel__5000__Sp__200__Start();break;     //GA_tst14
+
+			case 15: printf("T1xx SUV Chevy Gas Domestic MY21\n");break;
+			case 16: printf("T1xx SUV Chevy Gas Export MY21\n");break;
+			case 17: printf("T1xx SUV Chevy Diesel Domestic MY21\n");break;
+			case 18: printf("T1xx SUV Chevy Diesel Export MY21\n");break;
+			case 19: printf("T1xx SUV GMC Diesel Domestic MY21\n");break;
+			case 20: printf("T1xx SUV GMC Diesel Export MY21\n");break;
+			case 21: printf("T1xx SUV GMC Gas Domestic MY21\n");break;
+			case 22: printf("T1xx SUV GMC Gas Export MY21\n");break;
+
+			case 23: MessageBoxW(NULL, L"E2UL Domestic - Gas MY20 FB is running ", L"Message", MB_OK);FB_MY20_E2UL_Domestic_Gasoline__7000__with_speedo_160__Start();break;
+			case 24: MessageBoxW(NULL, L"E2UL Export - Gas MY20 FB is running ", L"Message", MB_OK);FB_MY20_E2UL_Export_Gasoline_7000_Sp__260__Start();break;
+			case 25: MessageBoxW(NULL, L"E2UL China - Gas MY20 FB is running ", L"Message", MB_OK);FB_MY20_E2UL_Export_Gasoline_7000_Sp__260__Start();break;
+			case 26: MessageBoxW(NULL, L"E2UL Export - Diesel MY20 FB is running ", L"Message", MB_OK);FB_MY20_E2UL_Export_Diesel_6000__Sp_260__Start();break;
+
+			case 27: MessageBoxW(NULL, L"T1xx LD Domestic Gas Chevy MY20 FB is running ", L"Message", MB_OK);FB_MY20_Chevy_LD_Domestic_Gas_6500__Sp_140__Start();break;       //GA_tst20
+			case 28: MessageBoxW(NULL, L"T1xx LD Export Gas Chevy MY20 FB is running ", L"Message", MB_OK);FB_MY20_Chevy_LD_Export_Gas_6500__Sp_200__Start();break;           //GA_tst22
+			case 29: MessageBoxW(NULL, L"T1xx LD Domestic Diesel Chevy MY20 FB is running ", L"Message", MB_OK);FB_MY20_Chevy_LD_Domestic_Diesel_6000__Sp_140__Start();break;  //GA_tst21
+			case 30: MessageBoxW(NULL, L"T1xx LD Export Diesel Chevy MY20 FB is running ", L"Message", MB_OK);FB_MY20_Chevy_LD_Export_Diesel_6000__Sp_200__Start();break;      //GA_tst23
+			case 31: MessageBoxW(NULL, L"T1xx LD Domestic Gas GMC MY20 FB is running ", L"Message", MB_OK);FB_MY20_GMC_LD_Domestic_Gas_6500__Sp_140__Start();break;           //GA_tst24
+			case 32: MessageBoxW(NULL, L"T1xx LD Export Gas GMC MY20 FB is running ", L"Message", MB_OK);FB_MY20_GMC_LD_Export_Gas_6500__Sp_200__Start();break;               //GA_tst26
+			case 33: MessageBoxW(NULL, L"T1xx LD Domestic Diesel GMC MY20 FB is running ", L"Message", MB_OK);FB_MY20_GMC_LD_Domestic_Diesel_6000__Sp_140__Start();break;    //GA_tst25
+			case 34: MessageBoxW(NULL, L"T1xx LD Export Diesel GMC MY20 FB is running ", L"Message", MB_OK);FB_MY20_GMC_LD_Export_Diesel_6000__Sp_200__Start();break;        //GA_tst27
+
+			case 35: MessageBoxW(NULL, L"C1UL/C1TL Domestic Gas LGX MY20 FB is running ", L"Message", MB_OK);FB_MY20_C1UL_Domestic_gas_8000__Sp_160__Start();break;         //GA_tst8
+			case 36: MessageBoxW(NULL, L"C1UL/C1TL Export Gas LGX MY20 FB is running ", L"Message", MB_OK);FB_MY20_C1UL_Export_Gas__8000__Sp_260__Start();break;            //GA_tst7
+			case 37: MessageBoxW(NULL, L"C1UB-S C4 Gas Engine kph   SGM MY20 FB is running ", L"Message", MB_OK);FB_MY20_C1UB_Export_Gas__7000__Sp_260__Start();break;      //GA_tst9
+
+			case 38: printf("A2SL/A2LL Gas, China  MY20\n");break;
+			case 39: printf("A2SL Base Gas Domestic L3B MY20\n");break;
+			case 40: printf("A2SL Base Gas Export L3B  MY20\n");break;
+			case 41: printf("E2 Sport/Y2xx domestic/export MY21\n");break;
+			default: MessageBoxW(NULL, L"Invalid Variant ", L"Message", MB_OK);
+			}
+		}
+	}
+	if (Flag == 0)
+		printf("Part Number not Found\n");
+}
+
+void SpyAppSig_AS_MB_test(double dNewValue)
+{
+	int iNewValue, id;
+	iNewValue = dNewValue;
+	if (iNewValue == 1)
+	{
+		id = MessageBoxW(NULL, L"Does the Cluster has Seed/Key values?", L"Message", MB_YESNOCANCEL);
+		if (id == 6)
+		{
+			MessageBoxW(NULL, L"Do Power Reset and Click Check VC", L"Message", MB_OK);
+		}
+		if (id == 7)
+			MessageBoxW(NULL, L"Look for the UnSuccessfull Seed/Key and Click that particular Button in (Write to IPC ) Panel", L"Mesage", MB_OK);
+		if (id == 2)
+			MessageBoxW(NULL, L"Cannot Procced", L"Error", MB_ICONERROR);
+	}
+}
+void SpyAppSig_AS_Check_VC(double dNewValue)
+{
+	int iNewValue, iM;
+	iNewValue = dNewValue;
+	if (iNewValue == 1)
+	{
+	Label:iM = MessageBoxW(NULL, L"Did you get  3 Positive Response", L"Message", MB_YESNOCANCEL);
+		if (iM == 6)
+		{
+			int id1 = MessageBoxW(NULL, L"Check if the Cluster Speedo and Tacho is at Zero", L"Message", MB_YESNO);
+			if (id1 == 6)
+				MessageBoxW(NULL, L"Exit Production mode and Click Check Button", L"Message", MB_OK);
+			if (id1 == 7)
+				MessageBoxW(NULL, L"Give value to Numeric Entry Box and Click Write Speedo and Tacho\n", L"Message", MB_OK);
+		}
+		if (iM == 7)
+			MessageBoxW(NULL, L"Retry again Check Button\nOr Go to (Write to IPC ) Panel and Click Button for that particular Variant and Check Again", L"Message", MB_OK);
+	
+		if (iM == 2)
+			MessageBoxW(NULL, L"Cannot Proceed", L"Error Message", MB_ICONERROR);
+	}
+
+}
+		
+
+	
+int pass1 = 0;
+void SpyAppSig_AS_ABS_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass1 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+int pass2 = 0;
+void SpyAppSig_AS_Airbag_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass2 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+		/*char stop[50];
+		Spy_TextAPI("Stop", stop, 50);*/
+	}
+}
+
+void SpyAppSig_AS_Base_model_PN_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if(iNewValue==2)
+		MessageBoxW(NULL, L"Base Model Part Number Success", L"Message", MB_OK);
+	if (iNewValue == 3)
+		MessageBoxW(NULL, L"Wrong Base Model Part Number", L"Error Message", MB_ICONERROR);
+}
+
+int pass3 = 0;
+void SpyAppSig_AS_Battery_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass3 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+int pass4 = 0;
+void SpyAppSig_AS_Brake_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass4 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+
+void SpyAppSig_AS_BrokenTab_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+int pass5 = 0;
+void SpyAppSig_AS_CruiseControl_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass5 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_DUNS_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		MessageBoxW(NULL, L"DUNS Success", L"Message", MB_OK);
+	if (iNewValue == 3)
+		MessageBoxW(NULL, L"Wrong DUNS", L"Error Message", MB_ICONERROR);
+}
+
+void SpyAppSig_AS_Debris_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+int pass6 = 0;
+
+void SpyAppSig_AS_DieselGlowPlug_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass6 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_ECUID_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		MessageBoxW(NULL, L"ECUID Success", L"Message", MB_OK);
+	if (iNewValue == 3)
+		MessageBoxW(NULL, L"Wrong ECUID", L"Error Message", MB_ICONERROR);
+}
+
+int pass7 = 0;
+void SpyAppSig_AS_Eng_emission_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass7 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+int pass8 = 0;
+void SpyAppSig_AS_FrontFogLight_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass8 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_Gauges_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+
+int pass9 = 0;
+void SpyAppSig_AS_HighBeam_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass9 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+int pass10 = 0;
+void SpyAppSig_AS_LeftIndicator_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass10 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_Lens_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_LightLeak_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_MTC_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		MessageBoxW(NULL, L"Serial Number(MTC) Success", L"Message", MB_OK);
+	if (iNewValue == 3)
+		MessageBoxW(NULL, L"Wrong Serial Number(MTC)", L"Error Message", MB_ICONERROR);
+}
+
+int pass11 = 0;
+void SpyAppSig_AS_OilPressure_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass11 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+int pass12 = 0;
+void SpyAppSig_AS_PArkLight_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass12 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_PN_SN_LabelCheck(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_Packg_Shipg_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+int pass13 = 0;
+void SpyAppSig_AS_Park_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass13 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_PartNUmber_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if(iNewValue==2)
+		MessageBoxW(NULL, L"Part Number Success", L"Message", MB_OK);
+	if (iNewValue == 3)
+		MessageBoxW(NULL, L"Part Number Wrong", L"Error Message", MB_ICONERROR);
+}
+
+void SpyAppSig_AS_ProdLabelInfo_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_QR_Code_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+int pass14 = 0;
+void SpyAppSig_AS_RearFogLight_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass14 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+int pass15 = 0;
+void SpyAppSig_AS_RightIndicator_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass15 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_SW_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+int pass16 = 0;
+void SpyAppSig_AS_Seat_Belt_Signal(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass16 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+int pass17 = 0;
+void SpyAppSig_AS_TirePressure_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass17 = 1;
+
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_USB_Blue_pincheck(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_VPPS_Check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		MessageBoxW(NULL, L"VPPS Success", L"Message", MB_OK);
+	if (iNewValue == 3)
+		MessageBoxW(NULL, L"Wrong VPPS", L"Error Message", MB_ICONERROR);
+}
+
+void SpyAppSig_AS_WOW_Inpection(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+void SpyAppSig_AS_shadow_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+
+int pass18 = 0;
+void SpyAppSig_AS_telltale_check(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 2)
+		pass18 = 1;
+	if (iNewValue == 3)
+	{
+		MessageBoxW(NULL, L"Cannot Proceed\nCheck the Signal Again", L"Error Message", MB_ICONERROR);
+	}
+}
+void SpyAppSig_AS_TelltaleSuccess(double dNewValue)
+{
+	int iNewValue;
+	iNewValue = dNewValue;
+	if (iNewValue == 1)
+	{
+		if (pass1 == 1 && pass2 == 1 && pass3 == 1 && pass4 == 1 && pass5 == 1 && pass6 == 1 && pass7 == 1 && pass8 == 1 && pass9 == 1 && pass10 == 1 && pass11 == 1 && pass12 == 1 && pass13 == 1
+			&& pass14 == 1 && pass15 == 1 && pass16 == 1 && pass17 == 1 && pass18 == 1)
+		{
+			MessageBoxW(NULL, L"All Success\n Do Quality Checking", L"Message", MB_OK);
+			pass1 = 0;pass2 = 0;pass3 = 0;pass4 = 0;pass5 = 0;pass6 = 0;pass7 = 0;pass8 = 0;pass9 = 1;pass10 = 0;pass11 = 1;pass12 = 0;
+			pass13 = 0;pass14 = 0;pass15 = 0;pass16 = 0;pass17 = 0;pass18 = 0;
+		}
+		//MessageBoxW(NULL, L"Cannot Proceed\n Check the Signal Again", L"Error Message", MB_ICONERROR);
+		/*char stop[50];
+		Spy_TextAPI("Stop", stop, 50);*/
+	}
+}
+
+
